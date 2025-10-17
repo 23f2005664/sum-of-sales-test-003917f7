@@ -4,63 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generated App</title>
-    <style>/* Additional CSS styles if needed */</style>
+    <style>/* Additional styling if needed */
+</style>
 </head>
 <body>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sales Summary</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <style>
-        /* Custom styles can go here if needed */
-        body {
-            padding: 2rem;
-        }
-        #total-sales {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales Summary</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    /* Custom styles if needed */
+    body {
+      padding: 2rem;
+    }
+    #total-sales {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div class="container text-center">
-        <h1 class="mb-4">Sales Summary</h1>
-        <div class="card p-4 shadow-sm">
-            <div class="mb-3">Total Sales:</div>
-            <div id="total-sales" class="text-primary">Loading...</div>
-        </div>
+  <div class="container text-center">
+    <h1 class="mb-4">Sales Summary</h1>
+    <div class="alert alert-primary" role="alert">
+      Total Sales: <span id="total-sales">Calculating...</span>
     </div>
-    <script src="script.js"></script>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
-    <script>fetch('data.csv')
-  .then(response => response.text())
-  .then(csvText => {
-    const lines = csvText.trim().split('\n');
-    const header = lines[0].split(',');
-    const salesIndex = header.indexOf('Sales');
-
-    if (salesIndex === -1) {
-      document.getElementById('total-sales').textContent = 'Sales column not found';
-      return;
-    }
-
-    let totalSales = 0;
-    for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(',');
-      const saleValue = parseFloat(values[salesIndex]);
-      if (!isNaN(saleValue)) {
-        totalSales += saleValue;
+    <script>document.addEventListener('DOMContentLoaded', () => {
+  fetch('data.csv')
+    .then(response => response.text())
+    .then(csvText => {
+      const lines = csvText.trim().split('\n');
+      const headers = lines[0].split(',');
+      const salesIndex = headers.findIndex(h => h.trim().toLowerCase() === 'sales');
+      if (salesIndex === -1) {
+        document.getElementById('total-sales').textContent = 'Error: Sales column not found';
+        return;
       }
-    }
-    document.getElementById('total-sales').textContent = totalSales.toFixed(2);
-  })
-  .catch(error => {
-    document.getElementById('total-sales').textContent = 'Error loading data';
-    console.error('Error fetching or processing CSV:', error);
-  });</script>
+      let totalSales = 0;
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(',');
+        const salesValue = parseFloat(values[salesIndex]);
+        if (!isNaN(salesValue)) {
+          totalSales += salesValue;
+        }
+      }
+      document.getElementById('total-sales').textContent = totalSales.toFixed(2);
+    })
+    .catch(error => {
+      document.getElementById('total-sales').textContent = 'Error loading data';
+      console.error('Error fetching CSV:', error);
+    });
+});</script>
 </body>
 </html>
